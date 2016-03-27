@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo 'test'"
+    "test": "echo 'test'",
+    "js": "jspm bundle-sfx index index.min.js",
+    "watch": "watch 'npm run js' ./"
   },
   "repository": {
     "type": "git",
@@ -21,5 +23,21 @@
   "bugs": {
     "url": "https://github.com/SpinbitZ/cycle-mvi/issues"
   },
-  "homepage": "https://github.com/SpinbitZ/cycle-mvi#readme"
+  "homepage": "https://github.com/SpinbitZ/cycle-mvi#readme",
+  "jspm": {
+    "configFile": "jspm_config.js",
+    "dependencies": {
+      "@cycle/core": "npm:@cycle/core@^6.0.3",
+      "@cycle/dom": "npm:@cycle/dom@^9.1.0",
+      "rxjs": "npm:rxjs@^5.0.0-beta.2"
+    },
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.8.24",
+      "babel-runtime": "npm:babel-runtime@^5.8.24",
+      "core-js": "npm:core-js@^1.1.4"
+    }
+  },
+  "devDependencies": {
+    "watch": "^0.17.1"
+  }
 }

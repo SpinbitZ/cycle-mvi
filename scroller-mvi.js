@@ -10,6 +10,60 @@ const O = Rx.Observable; //!!
 
  Cycle is not a circle, but a spiral.
 
+ Nature wants to flow in a cycle.  Shake a bottle of water vigorously and you will get a vortex naturally.
+
+ # -Cycles are coherent systems of flow. Nature prefers order out of chaos.
+
+ Software also has natural cycles and is capable of coherent flow, minimizing chaos complexity and disorder.
+
+ # -There will be flow in any application, but coherence in flow is maximally simple flow.
+
+ Challenge: Find a UI that doesn't function in some way as a cycle.
+
+ Goal: Strive for coherence.
+
+
+# -Cycles as spirals
+
+ Circles are closed off and dead.  The circle has to be broken into a spiral before it can begin to be dynamic.
+
+ screenEvents = computer(interactionEvents)
+ interactionEvents = user(screenEvents)
+
+ a = f(b)
+ b = g(a)
+
+# -PROBLEM? interactionEvents is used before it is ever defined.
+
+there is a 'circular' or rather a cyclical dependency here which you can see clearly in the composition or 'point-free' style:
+
+
+ b = g(f(b))
+
+ The problem is with the assignment.  In math this is an equation, not an assignment.
+
+ Specifically this is the fixed-point equation.
+
+
+
+
+
+ interactionEvents = user(computer(interactionEvents))
+
+
+
+
+
+ a, or interactionEvents is the output of processing itself as input...
+ ... and round it goes.
+
+
+
+
+
+ Replace beginning with suitable proxy to bootstrap the process.
+
+
 
 
  # -model-centric-cycle-flow
@@ -25,7 +79,7 @@ const O = Rx.Observable; //!!
 
   USER function via DOM drivers is the implicit output for the DOMSource input here.
 
-*/
+//
 
  function main(DOMSource) {
   // ---> output at the end is DOM sink or vTree$ which returns here as --> input from user function (drivers)
@@ -46,7 +100,7 @@ const O = Rx.Observable; //!!
             ])
         });
 }
-/**
+
  As functional composition, however, you can see more clearly how the cycle is inside out.
 
  This is how the v-tree is rendered through the DOM driver into the sink of the real world.
@@ -154,7 +208,7 @@ export default function scroller(opt) {
 
 }
 
-
+/*
 function main(DOMSource) { // ---> output is DOM sink or vTree$
     return DOMSource.select(opt.el)
         // intent
@@ -182,7 +236,6 @@ function main(DOMSource) { // ---> output is DOM sink or vTree$
         });
 }
 
-/*
 
  function main(DOMBody) {
 
