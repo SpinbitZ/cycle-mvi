@@ -66,9 +66,7 @@ build/Release
 # https://docs.npmjs.com/misc/faq#should-i-check-my-node-modules-folder-into-git
 node_modules
 jspm_packages
-mvi-example
 
-__pub
 *.idea
 
 npm-debug.log.**
@@ -79,3 +77,7 @@ npm-debug.log.**
 *.iml
 
 bk
+
+cyc
+
+cycle-pong

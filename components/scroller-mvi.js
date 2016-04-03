@@ -1,7 +1,14 @@
 import Cycle from '@cycle/core';
-import {div, input, label,p, makeDOMDriver} from '@cycle/dom';
+import {div, input, label,p, img, makeDOMDriver} from '@cycle/dom';
 import * as Rx from 'rx';
+import RDOM from 'rx-dom';
+Rx.DOM = RDOM.DOM;
+
+import scrollIntent from './scrollIntent';
+
 const O = Rx.Observable; //!!
+console.log("Rx.DOM is ... ", Rx.DOM);
+
 
 /**
  ////// Cycle-MVI-as-UI-Recursion
@@ -23,7 +30,7 @@ const O = Rx.Observable; //!!
  Goal: Strive for coherence.
 
 
-# -Cycles as spirals
+ # -Cycles as spirals
 
  Circles are closed off and dead.  The circle has to be broken into a spiral before it can begin to be dynamic.
 
@@ -33,9 +40,9 @@ const O = Rx.Observable; //!!
  a = f(b)
  b = g(a)
 
-# -PROBLEM? interactionEvents is used before it is ever defined.
+ # -PROBLEM? interactionEvents is used before it is ever defined.
 
-there is a 'circular' or rather a cyclical dependency here which you can see clearly in the composition or 'point-free' style:
+ there is a 'circular' or rather a cyclical dependency here which you can see clearly in the composition or 'point-free' style:
 
 
  b = g(f(b))
@@ -77,9 +84,9 @@ there is a 'circular' or rather a cyclical dependency here which you can see cle
  ## VIEW: DOM driver for feeding back into the USER input or sink function and to return again into the DOM source, U.
  # -USER: DOM sink (user: write or render to)
 
-  USER function via DOM drivers is the implicit output for the DOMSource input here.
+ USER function via DOM drivers is the implicit output for the DOMSource input here.
 
-//
+ //
 
  function main(DOMSource) {
   // ---> output at the end is DOM sink or vTree$ which returns here as --> input from user function (drivers)
@@ -130,25 +137,31 @@ there is a 'circular' or rather a cyclical dependency here which you can see cle
 
 export default function scroller(opt) {
 
-    console.log("scroller is ... ", opt);
+    console.log("opt is ... ", opt);
 
     return function (opt2) {
+        console.log("opt2 is ... ", opt2);
 
-        console.log("(opt2) is ... ", (opt2));
+        function intent(SOURCES) {
 
-        /////// Outside-in-IMV -
-        // Intent gets Modeled and released into the user function (rendered) as a virtual DOM tree.
-        // processing side-effects ---> channeled through "/// DRIVERS".
 
-        /////// input-first (sensor) DOM source
+            console.log("intent: SOURCES is ... ", SOURCES);
 
-        //// -_-> /////// INTENT-ACTION - Takes the DOM driver SOURCE interface to the outside intent and returns "input" mapped as value
-        function intent(DOMBody) {
-            console.log("DOMBody is ... ", DOMBody);
-            return DOMBody.select("#" + opt.el)
+            //const scroll$ = SOURCES.SCROLL.select("body").events('scroll');
+            //
+            //console.log("scroll$ is ... ", scroll$);
+            //
+            //
+            //scroll$.subscribe(function (evt) {
+            //    console.log("evt is ... ", evt);
+            //});
+
+
+            //console.log("SOURCES is ... ", SOURCES);
+            return SOURCES.DOM.select("#" + opt.el)
                 .events('scroll')
                 .map(e => {
-                    console.log("e is ... ", e);
+                    //console.log("e is ... ", e);
                     return e.target.scrollTop;
                 });
         }
@@ -156,7 +169,7 @@ export default function scroller(opt) {
         ///// MODEL-STATE - (no side effects)
         function model(scrollAction$) {
 
-            console.log("scrollAction$ is ... ", scrollAction$);
+            console.log("model: scrollAction$ is ... ", scrollAction$);
             let scrollTop$ = scrollAction$.startWith(0);
             let state$ = O.combineLatest(
                 scrollTop$,
@@ -173,24 +186,33 @@ export default function scroller(opt) {
 
         ///// VIEW-TREE - render state - effector - rendering visual (sink) output for side-effects in the real world
         function view(scrollState$) { /////// ---> //// vTree output to DOM driver
+
+
             console.log("view: scrollState$ is ... ", scrollState$);
+
             return scrollState$.map(state => {
-                console.log("state is ... ", state);
+                console.log("view: state is ... ", state);
                 //---> DIV has to match in selection with makeDOMDriver in the run Cycle
-                return div({id: opt.el}, [
+                return div({
+                    id: opt.el,
+                    className: "hero-top"
+                }, [
                     div({id: "screen"}, [
-                        p("scroll: " + state)
+                        div({id:"hero"},[
+                            img({uri:""}),
+                            div({id:"canvas"}),
+                            p("scroll: " + state)
+                        ])
                     ])
                 ]);
             });
-
         }
 
 
-        /////// IO-CYCLE- -> i/o - source/sink -->  mvi cycle, and DOM-link - for interfacing with side-effects or /// DRIVERS
+        /////// IO-CYCLE- -> i/o - source/sink -->  mvi cycle, and DOM-link - for interfacing with side-effects or DRIVERS
         function MAIN(SOURCES) {
             return {
-                DOM: view(model(intent(SOURCES.DOM)))
+                DOM: view(model(intent(SOURCES)))
             };
         }
 
@@ -204,37 +226,38 @@ export default function scroller(opt) {
         Cycle.run(MAIN, DRIVERS);
 
 
+        return MAIN;
     };
 
 }
 
 /*
-function main(DOMSource) { // ---> output is DOM sink or vTree$
-    return DOMSource.select(opt.el)
-        // intent
-        .events('scroll')
-        .map(e => {
-            console.log("e is ... ", e);
-            return e.target.scrollTop;
-        })
-        // model
-        .startWith(0)
-        .map((scrolltop) => {
-            console.log("model: scrolltop is ... ", scrolltop);
-            return scrolltop;
-        })
-        // view
-        .map(state => {
-            console.log("state is ... ", state);
-            //---> DIV
-            return div({id: opt.el}, [
-                div([
-                    label('mvi-mod:: Property: ' + state + 'amounts'),
-                    input('.prop', {type: 'range', min: 40, max: 150, value: state})
-                ])
-            ])
-        });
-}
+ function main(DOMSource) { // ---> output is DOM sink or vTree$
+ return DOMSource.select(opt.el)
+ // intent
+ .events('scroll')
+ .map(e => {
+ console.log("e is ... ", e);
+ return e.target.scrollTop;
+ })
+ // model
+ .startWith(0)
+ .map((scrolltop) => {
+ console.log("model: scrolltop is ... ", scrolltop);
+ return scrolltop;
+ })
+ // view
+ .map(state => {
+ console.log("state is ... ", state);
+ //---> DIV
+ return div({id: opt.el}, [
+ div([
+ label('mvi-mod:: Property: ' + state + 'amounts'),
+ input('.prop', {type: 'range', min: 40, max: 150, value: state})
+ ])
+ ])
+ });
+ }
 
 
  function main(DOMBody) {

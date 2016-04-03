@@ -42,7 +42,7 @@ export default function bmiCalc(opt) {
                 ])
             );
         };
-///// BDOF-JKJL-MMM--->
+///// BDOF-JKJL-MMM---.. ...>
         mvi({model, view, intent, el: opt.el});
 
     };

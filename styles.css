@@ -1,20 +1,16 @@
+
+
+
+
+
+
+
 @charset "UTF-8";
 /*
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
    SMAS - BASE
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 */
-@font-face {
-    font-family: "Source Sans Pro";
-    src: url("../../../theme/SourceSansPro-Regular.otf");
-    font-weight: 400;
-}
-
-@font-face {
-    font-family: "Source Sans Pro";
-    src: url("../../../theme/SourceSansPro-Bold.otf");
-    font-weight: 600;
-}
 
 /* normalize.css v2.1.0 | MIT License | git.io/normalize */
 /* ==========================================================================
@@ -652,100 +648,131 @@ pre code {
     .contain {
         width: 90%;
     }
+
     .col {
         margin-left: .2em;
         margin-bottom: .2em;
         box-sizing: border-box;
     }
+
     .col:first-child {
         margin-left: 0;
     }
+
     .one.col {
         width: 4.66666666667%;
     }
+
     .two.col {
         width: 13.3333333333%;
     }
+
     .three.col {
         width: 24%;
     }
+
     .four.col {
         width: 30.6666666667%;
     }
+
     .five.col {
         width: 39.3333333333%;
     }
+
     .six.col {
         width: 48%;
     }
+
     .seven.col {
         width: 56.6666666667%;
     }
+
     .eight.col {
         width: 65.3333333333%;
     }
+
     .nine.col {
         width: 74.0%;
     }
+
     .ten.col {
         width: 82.6666666667%;
     }
+
     .eleven.col {
         width: 91.3333333333%;
     }
+
     .twelve.col {
         width: 100%;
         margin-left: 0;
     }
+
     .one-third.col {
         width: 30.6666666667%;
     }
+
     .two-thirds.col {
         width: 65.3333333333%;
     }
+
     .one-half.col {
         width: 48%;
     }
+
     /* Offsets */
     .off-one.col {
         margin-left: 8.66666666667%;
     }
+
     .off-two.col {
         margin-left: 17.3333333333%;
     }
+
     .off-three.col {
         margin-left: 26%;
     }
+
     .off-four.col {
         margin-left: 34.6666666667%;
     }
+
     .off-five.col {
         margin-left: 43.3333333333%;
     }
+
     .off-six.col {
         margin-left: 52%;
     }
+
     .off-seven.col {
         margin-left: 60.6666666667%;
     }
+
     .off-eight.col {
         margin-left: 69.3333333333%;
     }
+
     .off-nine.col {
         margin-left: 78.0%;
     }
+
     .off-ten.col {
         margin-left: 86.6666666667%;
     }
+
     .off-eleven.col {
         margin-left: 95.3333333333%;
     }
+
     .off-one-third.col {
         margin-left: 34.6666666667%;
     }
+
     .off-two-thirds.col {
         margin-left: 69.3333333333%;
     }
+
     .off-one-half.col {
         margin-left: 52%;
     }
@@ -990,72 +1017,72 @@ Usage
    SMAS - MODULES
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 */
-#topnav-hero {
-    width: 800px;
-    height: 600px;
-    margin: 0 auto;
-    border: 1px solid green;
-    overflow-y: scroll;
-}
+/*#topnav-hero {*/
+    /*width: 800px;*/
+    /*height: 600px;*/
+    /*margin: 0 auto;*/
+    /*border: 1px solid green;*/
+    /*overflow-y: scroll;*/
+/*}*/
 
-#topnav-hero #screen {
-    width: 100%;
-    height: 70000px;
-    background: orange;
-}
+/*#topnav-hero #screen {*/
+    /*width: 100%;*/
+    /*height: 70000px;*/
+    /*background: orange;*/
+/*}*/
 
-#topnav-container {
-    width: 800px;
-    height: 500px;
-    margin: 0 auto;
-    border: 1px solid red;
-}
+/*#topnav-container {*/
+    /*width: 800px;*/
+    /*height: 500px;*/
+    /*margin: 0 auto;*/
+    /*border: 1px solid red;*/
+/*}*/
 
-#topnav {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-}
+/*#topnav {*/
+    /*list-style-type: none;*/
+    /*padding: 0;*/
+    /*margin: 0;*/
+    /*box-sizing: border-box;*/
+/*}*/
 
-#topnav li {
-    float: left;
-    width: 20%;
-    height: 30px;
-    line-height: 13px;
-    list-style: none;
-    margin: 0 !important;
-    padding: 0 !important;
-}
+/*#topnav li {*/
+    /*float: left;*/
+    /*width: 20%;*/
+    /*height: 30px;*/
+    /*line-height: 13px;*/
+    /*list-style: none;*/
+    /*margin: 0 !important;*/
+    /*padding: 0 !important;*/
+/*}*/
 
-#topnav li a {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    line-height: 1.3;
-    background-color: #180b39;
-    color: #311774;
-    outline: #2E119C 1px solid;
-    box-sizing: border-box;
-    display: block;
-    background-image: none !important;
-    font-size: 21px;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    font-weight: bold;
-    text-align: center;
-    text-decoration: none;
-    text-transform: uppercase;
-}
+/*#topnav li a {*/
+    /*position: relative;*/
+    /*width: 100%;*/
+    /*height: 100%;*/
+    /*line-height: 1.3;*/
+    /*background-color: #180b39;*/
+    /*color: #311774;*/
+    /*outline: #2E119C 1px solid;*/
+    /*box-sizing: border-box;*/
+    /*display: block;*/
+    /*background-image: none !important;*/
+    /*font-size: 21px;*/
+    /*-moz-osx-font-smoothing: grayscale;*/
+    /*-webkit-font-smoothing: antialiased;*/
+    /*font-weight: bold;*/
+    /*text-align: center;*/
+    /*text-decoration: none;*/
+    /*text-transform: uppercase;*/
+/*}*/
 
-#topnav li a:hover {
-    background-color: #1d0d4c;
-    color: #3618a2;
-}
+/*#topnav li a:hover {*/
+    /*background-color: #1d0d4c;*/
+    /*color: #3618a2;*/
+/*}*/
 
-#topnav li a:focus {
-    outline: none;
-}
+/*#topnav li a:focus {*/
+    /*outline: none;*/
+/*}*/
 
 /*
 !* HEADERS *!
