@@ -38,6 +38,7 @@
       "@cycle/isolate": "npm:@cycle/isolate@^1.2.0",
       "cyclejs": "npm:cyclejs@^0.26.0",
       "rx": "npm:rx@^4.1.0",
+      "rx-combine-latest-obj": "npm:rx-combine-latest-obj@^1.0.2",
       "rx-dom": "npm:rx-dom@^7.0.3",
       "rxjs": "npm:rxjs@^5.0.0-beta.4"
     },
@@ -46,5 +47,8 @@
       "babel-runtime": "npm:babel-runtime@^5.8.24",
       "core-js": "npm:core-js@^1.1.4"
     }
+  },
+  "dependencies": {
+    "rx-combine-latest-obj": "^1.0.2"
   }
 }
