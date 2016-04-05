@@ -3,7 +3,9 @@ import { run } from '@cycle/core';
 import { makeDOMDriver, hJSX } from '@cycle/dom';
 import { Observable } from 'rx';
 import combineLatestObj from 'rx-combine-latest-obj';
-import DynamicComponent from './dynamic-component';
+import DynamicComponent from './components/check/dynamic/index';
+
+console.log("app dynamic");
 
 function main(sources) {
     const componentVtrees$ = combineLatestObj({
@@ -14,6 +16,9 @@ function main(sources) {
     const vtree$ = componentVtrees$.map(vtrees =>
         <div>
             {vtrees.dynamicComponent1}
+            <div>
+                <p>Whuttever</p>
+            </div>
             {vtrees.dynamicComponent2}
         </div>
     );

@@ -1,19 +1,23 @@
 import { run } from '@cycle/core';
 import { makeDOMDriver, h } from '@cycle/dom';
 import { Observable } from 'rx';
-import StaticComponent from './static-component';
+import StaticComponent from './static';
 
-function main(sources) {
-    const staticComponent = StaticComponent(sources);
+console.log("app static");
+
+function main(SOURCES) {
+    const staticComponent = StaticComponent(SOURCES);
     const vtree$ = staticComponent.DOM.map(staticVTree => div(staticVTree));
-    const sinks = {
+    return { //-> SINKS
         DOM: vtree$
     };
-    return sinks;
 }
 
 const drivers = {
     DOM: makeDOMDriver('#example-app')
 };
 
-run(main, drivers);
+run(
+    main, //-> COMPUTER
+    drivers //-> HUMAN
+);

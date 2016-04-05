@@ -1,7 +1,7 @@
 /** @jsx hJSX */
 import { hJSX } from '@cycle/dom';
 import { Observable } from 'rx';
-import styles from './dynamic-component.css';
+//import styles from './dynamic-component.css';
 
 export default function DynamicComponent(sources) {
     const seconds$ = Observable.interval(1000)
@@ -9,7 +9,7 @@ export default function DynamicComponent(sources) {
         .scan(seconds => seconds + 1);
 
     const vtree$ = seconds$.map(seconds =>
-        <div className={styles.container}>
+        <div className="whutt">
             I count {seconds} seconds.
         </div>
     );

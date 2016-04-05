@@ -7,7 +7,7 @@ const O = Rx.Observable;
 export default function mviModder(opt) {
     console.log("mvi-modder");
 
-    return function () {
+    //return function () {
         const {view,model,intent} = opt;
 
 
@@ -50,7 +50,7 @@ export default function mviModder(opt) {
 
         Cycle.run(main, drivers);
 
-    };
+    //};
 
 
 }

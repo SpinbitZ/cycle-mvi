@@ -7,6 +7,7 @@
     "start": "npm install ; jspm install",
     "test": "echo 'test'",
     "js": "jspm bundle-sfx index index.min.js",
+    "js2": "jspm bundle-sfx index-component-check index-component-check.min.js",
     "watch": "watch 'npm run js' ./"
   },
   "repository": {
