@@ -41,9 +41,9 @@ export function init() {
 }
 
 
-export default function bmiCalc(opt) {
+export default function bmiCalc({el}) {
     console.log("bmi-calc.js");
-    let {weight$, height$} = init(opt);
+    let {weight$, height$} = init();
 
     return function () {
         function intent(DOMSource) {
@@ -76,7 +76,7 @@ export default function bmiCalc(opt) {
         }
 
 
-        const module = mvi({intent, model, view, el: opt.el});
+        const module = mvi({intent, model, view, el});
 
         console.log("bmi-calc: module is ... ", module);
 

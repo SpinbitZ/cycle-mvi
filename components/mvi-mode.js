@@ -13,9 +13,20 @@ import {makeDOMDriver} from '@cycle/dom';
  * @returns {{el: *, intent: *, model: *, view: *, render: *, main: main, computer: main, drivers: drivers, human: drivers, run: run}}
  */
 export default ({el, intent, model, view, render}) => {
+
     const
-        drivers = ()=>{
-            return{
+        source = (source, evt)=> {
+            const src = source.select(el);
+            if(evt){
+                return src.events(evt)
+            }
+            return src;
+        },
+        sink = ({fn, opts})=>{
+            return fn(el, opts)
+        },
+        drivers = ()=> {
+            return {
                 DOM: makeDOMDriver(el)
             }
         },
@@ -42,6 +53,9 @@ export default ({el, intent, model, view, render}) => {
         /// HUMAN
         drivers,
         human: drivers,
+        ///// SOURCE /--> SINK
+        source,
+        sink,
         //-> RUN ///////
         run
     }
