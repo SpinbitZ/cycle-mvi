@@ -1,8 +1,8 @@
 import Cycle from '@cycle/core';
 import * as Rx from 'rx';
-import {div, input, label, h2} from '@cycle/dom';
+import {div, input, label, h2, makeDOMDriver} from '@cycle/dom';
 const O = Rx.Observable;
-import mvi from './mvi-mode';
+import {mvi} from './mvi-mode';
 
 
 //  * @param bla {{el:string, title:string, selector:string, init:object}}
@@ -22,8 +22,8 @@ export default function slider({el, title, unit, init}) {
         init = opt || init;
         const module = mvi({intent, model, view, render, el});
 
-        function intent(DOMSource) {
-            return module.source(DOMSource, 'input')
+        function intent(source) {
+            return module.source(source, 'input')
                 .map(ev => parseInt(ev.target.value));
         }
 
@@ -49,10 +49,8 @@ export default function slider({el, title, unit, init}) {
 
         function render({value}) {
             return div([
-                div([
-                    label(title + ' ' + value + ' ' + unit),
-                    module.sink({fn: input, opts: init})
-                ])
+                label(title + ' ' + value + ' ' + unit),
+                module.sink({fn: input, opts: init})
             ])
         }
 
