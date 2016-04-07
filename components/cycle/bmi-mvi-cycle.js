@@ -4,8 +4,8 @@ import {div, input, label, h2, makeDOMDriver} from '@cycle/dom';
 const O = Rx.Observable;
 
 
-export default function bmiCalc(opt) {
-    console.log("bmi-calc.js");
+export default function bmiCycle(opt) {
+    console.log("bmi-cycle.js");
     return function(){
         function intent(DOMSource) {
             const changeWeight$ = DOMSource.select('.weight').events('input')

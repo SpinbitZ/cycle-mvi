@@ -20,6 +20,7 @@ import {mvi} from './mvi-mode';
 export default function slider({el, title, unit, init}) {
     return function (opt) {
         init = opt || init;
+
         const module = mvi({intent, model, view, render, el});
 
         function intent(source) {

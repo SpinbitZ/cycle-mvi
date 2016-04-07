@@ -1,22 +1,10 @@
 import Cycle from '@cycle/core';
 import * as Rx from 'rx';
-import {div, input, h2, makeDOMDriver} from '@cycle/dom';
+import {div, input, label, h2, makeDOMDriver} from '@cycle/dom';
 const O = Rx.Observable;
 import {mvi} from './mvi-mode';
 import slider from './slider';
 
-
-function init({el, title, sliders}) {
-    console.log("el is ... ", el);
-    console.log("sliders is ... ", sliders);
-    const weight$ = slider(sliders.sliderOne)();
-    const height$ = slider(sliders.sliderTwo)();
-
-    return {
-        weight$,
-        height$
-    }
-}
 
 /**
  * slider => init = {type, min, max, value}
@@ -30,7 +18,6 @@ function init({el, title, sliders}) {
  * @returns {{el, intent, model, view, render, main, computer, drivers, human, source, sink, run}|{el: *, intent: *, model: *, view: *, render: *, main: main, computer: main, drivers: drivers, human: drivers, run: run}}
  */
 export default function calc({el, title, sliders}) {
-    console.log("title is ... ", title);
     let {weight$, height$} = init({el, title, sliders});
 
     function intent(DOMSource) {
@@ -59,11 +46,23 @@ export default function calc({el, title, sliders}) {
         return div([
             weight$.render(weight),
             height$.render(height),
-            h2(title + bmi)
+            h2(label + bmi)
         ]);
     }
 
     return mvi({intent, model, view, render, el});
 
 
+}
+
+function init({el, title, sliders}) {
+    console.log("el is ... ", el);
+    console.log("sliders is ... ", sliders);
+    const weight$ = slider(sliders.sliderOne)();
+    const height$ = slider(sliders.sliderTwo)();
+
+    return {
+        weight$,
+        height$
+    }
 }

@@ -1,4 +1,4 @@
-export const m1 = {
+export const bmi = {
     el:'#m1', title:'squash-stretch is ',
     sliders: {
         sliderOne: {

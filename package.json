@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/SpinbitZ/cycle-mvi#readme",
   "devDependencies": {
+    "jspm": "^0.16.32",
     "rx": "^4.1.0",
     "rxjs": "^5.0.0-beta.4",
     "watch": "^0.17.1"
