@@ -12,6 +12,7 @@ import {makeDOMDriver} from '@cycle/dom';
  * @param main
  * @param drivers
  * @param render - [optional] {Function}
+ * @param vtree - [optional] {Function}
  * @param makeDriver - [optional] {Function}
  * @param cycleKey - [optional] {Function}
  * @returns {{el: *, intent: *, model: *, view: *, render: *, main: main, computer: main, drivers: drivers, human: drivers, run: run}}
