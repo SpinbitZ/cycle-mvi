@@ -7,7 +7,7 @@
                                ----------------------------     
                               ┌──❱ Intent ❱ MODEL ❱ View ❱──┐
                               │                             │
-      ─ DOM source (touch) ─ ↑        1D data-flow         ↓ ─ DOM sink (display) ─
+       ─ DOM source (touch) ─ ↑        1D data-flow         ↓ ─ DOM sink (display) ─
       ........................│                             │.........................
       ........................└───────❰ User Events ❰───────┘.........................
       ........................       ↖↖↖↖↖  DOM  ↙↙↙↙↙       .........................
@@ -65,18 +65,18 @@ Perhaps this is why the role of [MVC][] and its `controller` is so *unstable* in
 See [Anatomy of a JavaScript MV* Framework](https://www.sitepoint.com/anatomy-javascript-mv-framework/).
 
 #### Note on Reactive vs. Interactive Programming
-The "[reactive][] programming" paradigm has been around for decades, but has gained buzzword status for Web developers recently with success in various popular UI frameworks, such as Facebook's [ReactJS][], and Netflix' use of [RxJS][].  The reason that reactive is so popular—as the evangelicals will tell you—is because it directly and simply cuts down the complexity of the UI interactions.  
+The "[reactive][] programming" paradigm has been around for decades, but has gained buzzword status for Web developers recently with the success of various popular UI frameworks, such as Facebook's [ReactJS][], and Netflix' use of [RxJS][].  The reason that reactive is so popular—as the evangelicals will tell you—is because it directly and simply cuts down the complexity of the UI interactions.  
 
 It does this partly by simplifying the types or directions of control by preferring only one, namely the `reactive` one.  This pushes the architecture towards a [unidirectional data-flow][], see below.
 
-But the `reactive` approach also simplifies the UI because each component becomes responsible for its own actions only.  Responsibility regarding the component becomes encapsulated within the component itself.  This increases encapsulation and [separation of concerns][] because components need to know little if anything about each other. What components really care about is the changing state of the application, which is extracted in the flow through the model.
+But the `reactive` approach also simplifies the UI because each component becomes responsible for its own actions only.  Responsibility regarding the component becomes encapsulated within the component itself.  This increases [separation of concerns][] because components need to know little if anything about each other. What components really care about is the changing state of the application, which is extracted in the flow through the model.
 
 For more on how reactive patterns simplify data-flow, see this [Reactive Primer][].
 
 
 ### MVI as Mirror of the UI Data-Cycle
 
-There is a new MV* pattern, however: a "[reactive MVC][]" which is growing in the JS dev community.  It is called "model, view, intent" or [MVI][]. And because to me it feels the cleanest and simplest—and because it expresses the ideal of a reactive and unidirectional data-flow—it will be explored herein as the design pattern for organizing user-interactions, as simply and cleanly as possible. Essentially it is the design pattern which follows simply from the UI datacycle itself.   
+There is a new MV* pattern, however: a "[reactive MVC][]" which is growing in the JS dev community.  It is called "model, view, intent" or [MVI][]. And because to me it feels the cleanest and simplest—and because it expresses the ideal of a reactive and unidirectional data-flow—it will be explored herein as the design pattern for organizing user-interactions, as simply and cleanly as possible. Essentially it is the design pattern which follows directly from the UI datacycle itself, as a smaller sub-cycle.   
 
 
 #### MVI is IMV 
@@ -89,14 +89,23 @@ Taking from Andre Staltz's [What if the user was a function?][], we can outline 
                                     
                               ┌──❱ Intent ❱ Model ❱ View ❱──┐
                               │                             │
-      ─ DOM source (touch) ─ ↑        1D data-flow         ↓ ─ DOM sink (display) ─
+       ─ DOM source (touch) ─ ↑        1D data-flow         ↓ ─ DOM sink (display) ─
                               │                             │
                               └─────❰ User DOM events ❰─────┘
                         
                                           HUMAN
  
 
-Because the [MVI][] name reflects an out-of-phase cycle starting instead with `Model`, see above, I will instead use the mnemonic symbol `IMV`, to denote the flow from `I` through `V`.  Note that `Model` is central in the flow, critically opposite to `HUMAN` or the user.  This is likely why `Model` is always listed first.  On either side of `model`, data is being adapted from—and then back to—the DOM interface.
+Because the [MVI][] name reflects an out-of-phase cycle starting instead with `Model`, see above, I will instead use the mnemonic symbol `IMV`, to denote the flow from `I` through `M`, and `V`.  Note that `Model` is central in the flow, critically opposite to `HUMAN` or the user.  This is likely why `Model` is always listed first.  On either side of `model`, data is being adapted from—and then back to—the DOM interface.
+
+                                          COMPUTER
+                                    (  flattened simple  )    
+                               - - - - - -M O D E L- - - - - 
+                                        ↗↗↗  imv  ↘↘↘
+                                    ↗↗↗↗↗  (trees)  ↘↘↘↘↘
+                               ----------------------------     
+                              ┌──❱ Intent ❱ MODEL ❱ View ❱──┐
+                              │                             │
 
 Essentially `IMV` models the UI "cycle" as a [unidirectional data-flow][] between `HUMAN` and `COMPUTER`.  But it is really a generalization of many cycles within cycles—an asynchronous flow that is effectively one-directional, and in a sense, one-dimensional. 
 
@@ -108,61 +117,90 @@ Essentially `IMV` models the UI "cycle" as a [unidirectional data-flow][] betwee
 >Contrast that simple cycle with [MVC][] which is often shown as a triangle of interactions with various overlapping directions, back and forth, from imperative to reactive. Not to mention the various classes, interfaces and other OOP ceremony we can perhaps entirely avoid.  See this [MVC Diagram](http://i.stack.imgur.com/ocEWx.png). If this were on the larger UI data-cycle as a whole, on the `COMPUTER` side, it would not be a line, but perhaps a line with a couple loops.
 
 
-### Intent
-At this point in the MV* refactor, the implementation of the `intent` api has barely begun.  And we appear to have this order of importance for such a separation: `model`, and then `view`, and then `* some kind of decoupling control structure`. 
+### Inversion of Intent 
 
-With reactive programming—such as even pub/sub—the control is largely inverted and injected (pushed).  And so, once the channels are composed it tends to be simpler and to "just flow".  
+With reactive programming—such as even simple pub/sub—the control is largely inverted and injected (pushed).  And so, once the channels are composed it tends to be simpler and to "just flow".  
 
 Intent is the reactive inversion of the controller.  It is state logic which "controls" by channeling asynchronous events into the reaction or update of state in model.  As the integrity of the application, with the model updated with the new intent, the other components, such as views, simply deterministically react.  
 
 Intent, then, adapts input event streams into model state streams. And so any such adapter—generally a DOM event handler, perhaps wrapping a model hook observable—we could call an `intent`. 
 
 #### Intents and Views
-Any `view` with its matching `model` and `intent` would ideally share the same DOM elements in the cycle.  But views should never react directly to even their own DOM events, let alone to other views.  The direct reactions to DOM sources are implicit intents, and they need to be identified and isolated as the `intent` adapters they need to be. Just as the end-phase reactions by the DOM to the model need to be extracted into the `view` adapters.  The key to the reactive "control" of the flow, is this separation in `IMV` phases. 
+Any `view` with its matching `model` and `intent` would ideally share the same DOM elements in the cycle.  But views should never react directly to even their own DOM events, let alone to other views.  The direct reactions to DOM sources are implicit intents, and they need to be identified and isolated as the explicit state adapters we need them to be. Just as the end-phase render reactions by the DOM to the changing model need to be extracted into the `view` adapters.  The key to the reactive "control" of the flow, is this separation in `IMV` phases. 
 
 The user input needs to be *understood* or *modelled* first as the "single source of truth" that all modules could potentially react to (depending on the scope of the state in question).  After the data is processed for `intent` and modelled accordingly, then the `view` knows the new *reasoned* state of the application with which to react.  Until that happens, any reaction is premature and wasted since views must inevitably maintain the integrity of state.  
 
-#### View Cleanup and Control Inversion with Intent Hooks
+#### Decentralized Control Inversion with Intent Hooks
 The `intent` is the inversion of the `controller`—but at the small level, in a granular and composable fashion with very simple "intent hooks" (see below).  The intent hooks are the tributaries or the capilaries to begin the collective reactive `IMV` data-flow.
 
-The `model` and `intent` hooks are easily imported and used as if native to a given module.  And perhaps it matters little about whether *all* the little intents are located and extracted, or even if they are ever "truly reactive" or even "merely interactive".  If state is isolated into models as event streams (hooks) which are reacted to by other modules, that *is* a [reactive][] control pattern.  And its continued implementation will simply, directly, explicitly, and incrementally keep cleaning up and maintaining the UI data-flow. 
-
-But isolating the intents themselves will help to remove the state and state logic remaining in the view procedures and modules.  And this is not only useful for decoupling in the [MVI][] pattern.  It is also key if we want to move to any virtual DOM render footing. 
+The `model` and `intent` hooks are easily imported and used as if native to a given module.  And perhaps it matters little about whether *all* the little intents are located and extracted, or even if they are ever "truly reactive" or even "merely interactive".  If state is isolated into models as event streams (hooks) which are reacted to by other modules, that *is* a distributed and [reactive][] control pattern.  
 
 The `intent` is the beginning phase in the reactive unidirectional data-cycle. And extracting intent hooks from the view procedures will clean up and simplify the views, as the `model` and `intent` modules of the given component are fleshed out.  These `intent` modules, such as `panel_intent.js`, will be useful to aggregate, the various granular `intent` hooks, as they separate and invert the logic of control into the unidirectional `IMV` flow. 
 
-#### How to Capture and Tame an Intent  
-
-So far only two intents have been explicitly defined or captured: `intentSetSrc` and `intentSetOp`.  So the `intent` api and architecture has a bit of room to grow in this Phase One refactor—both in capturing and taming these wild intents, as well as in generating new ones. For generating them, as with `model_base`, we may have a simple set of factory functions. 
-
-The cleanest example of the captured intents so far is `intentSetSrc`, in [panel_source_selector.js][] line 171.  This is from the proposed draft [component refactor branch][].  
-
-To locate or build an `intent` hook or function, focus in the views or view procedures on DOM event handlers around, or impacting, the key bits of state.  Since views and intents share the same DOM interface, they are generally found together in view procedures and need to be decoupled.  Just make a new event handler function that adapts the event data into setting the right user intent as a value on the model.  That new adapter function is the `intent`, and its single responsibility. 
-
-#### Name and Hook it up
-I think it helps to make the role of this intent-adapter explicit, such as `intentSetSrc`, or `sourceIntent`.  The function does not merely set `source`.  It adapts user `intent` and encapsulates the control flow logic for setting the state of `source`. 
-
-"Intent" in the naming convention signifies that state is being adapted from user input and intent, and explicitly locates the opening phase in the asynchronous `IMV` UI data-flow.  It signifies a key role or concern here.  
-
-Ideally it might look like this, to hook the event to the intent adapter:   
-
-	import {intentSetSrc} from "./panel_intent"
-	...
-	panel.srcBox.on('change', intentSetSrc)
-	
-Where `intentSetSrc` is defined like this, perhaps in a `panel_intent` module file:
-
-	export const intentSetSrc = key => model.setSourceFromKey(key)
-
-This hooks the `intent` adapter to the event data-flow which channels it through the model, from `key` to `source`.  And those `model` changes are reacted to and reflected through the views and other modules, completing the `COMPUTER` and `IMV` phases of the UI data-cycle.  
 
 
 ### Model
-As we have seen—and as discussed in the [model factory][] section—models consist of sets of "model hooks", which are generally observables.  These are just function hooks for subscribing or publishing, setting or getting data to and from keys in the model. 
+Similarly, models consist of sets of "model hooks", which are generally observables or other composable functions.  These are just function hooks for subscribing or publishing, setting or getting data to and from keys in the model. 
 
 So the "model" of any given component could be anything from an explicit `model` component and file, such as [operations_model.js][], to the sparse collection of `model` hooks a sub-module perhaps imports, composes, and reacts to. 
 
-See [model directory](#model-dir), below.
+<a name="model-factory"></a>
+#### Composable Model Factory
+These model functions (observable-type functions) are implemented—in `operations`, for example—simply by importing and using factory functions from the [model-base.js][] parent module.  Thus it [favors composition][] for implementing a dynamic functional inheritance for the model modules as a whole, wherever they are to be implemented and imported.  
+
+Once imported (composed) into the new model module, these base model factory functions are used directly, as if native to the module.  
+
+It looks like this: 
+
+	// top of `operations.js`
+	
+	import {makeGet, makeSet, makeSub, makePub} from './model_base'
+	...
+	
+	// In the set of model functions at the bottom of the file
+	// make and export setter key-hook for `statsDirtyKey` observable
+	
+	// Note that `statsDirtyKey` is a unique value for setting a property 
+	// dynamically on an object; generally a string or index
+	
+	export const setStatsDirty = makePub(statsDirtyKey)
+	
+	...
+	...
+	
+	// top of `panel.js`
+	// import and compose model hooks as if native to the module
+	
+	import {
+  		onStatsDirty,
+  		setStatsDirty,
+  		...
+	} from './operations.js';
+	
+	...
+	
+	// subscribe with a listener to update the panel stats
+	
+	onStatsDirty(() => panel.create(MODE.STAT));
+	
+	...
+	...
+	
+	// somewhere in `map.js`
+	// import and compose model hooks as if native to the module
+	
+	// layers draw functionality remaining in map
+	this.map.on('draw:created', function (e) {
+		// don't want to know about panel's or operations' implementation details...
+		// ... let alone do it for them...
+		// so we call a model hook, telling model what we need it to know 
+    	...
+   		setStatsDirty();
+    });
+
+So you can have your obvious model hooks without calling attention to them with needless ceremony, such as `model.stats.setStatsDirty()`.  Or you could hang them off a central model as well.  Both styles could be used in conjunction (see [refactor branch][]).   
+
+Currently, this off-the-cuff model-factory facilitates the generation of simple pub/sub (event-based or observable-based) models.  It is a set of factory functions for bootstrapping and plugging into a new model system of event-based data streams.  These are crude observables based currently on jQuery `callbacks`, but ideally they might use [RxJS][], or even [most.js][]. It also might be cleaner and more powerful, as well as more standards-based compliant, to switch the model—behind the `model_base` api—to use something like [CycleJS][] or [Redux][].
 
 
 ### View
