@@ -3,7 +3,7 @@ import * as Rx from 'rx';
 import {div, input, label, h2, makeDOMDriver} from '@cycle/dom';
 const O = Rx.Observable;
 import {mvi} from './mvi-mode';
-import slider from './slider';
+import slider from './slider-mvi';
 
 
 /**
@@ -51,8 +51,6 @@ export default function calc({el, title, sliders}) {
     }
 
     return mvi({intent, model, view, render, el});
-
-
 }
 
 function init({el, title, sliders}) {

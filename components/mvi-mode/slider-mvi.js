@@ -31,9 +31,7 @@ export default function slider({el, title, unit, init}) {
         function model(value$) {
             return O.combineLatest(
                 value$.startWith(init.value || init.min || 0),
-                (value) => {
-                    return {value};
-                }
+                (value) => ({value})
             );
         }
 

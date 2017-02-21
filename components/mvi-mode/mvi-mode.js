@@ -22,6 +22,9 @@ export const mvi = ({el, intent, model, view, vtree, main, drivers, render, make
     !cycleKey ? (cycleKey = el) : "";
     const
         VTREE = !vtree ? view(model(intent)) : vtree,
+      /**
+       *
+       */
         linkCycle = getlinkCycleFn(cycleKey),
         /**
          *
@@ -41,7 +44,7 @@ export const mvi = ({el, intent, model, view, vtree, main, drivers, render, make
             return linkCycle(VTREE(sources[cycleKey]));
         },
         /**
-         *
+         * Wraps the wiring of the run functionality.
          */
         RUN = () => {
             const d = !drivers ? DRIVERS() : drivers;
@@ -49,6 +52,7 @@ export const mvi = ({el, intent, model, view, vtree, main, drivers, render, make
             return run(m, d)
         },
         /**
+         * Returns the DOM source selected from the element.
          *
          * @param source
          * @param evt
@@ -99,7 +103,7 @@ export const mvi = ({el, intent, model, view, vtree, main, drivers, render, make
 };
 
 
-export const getlinkCycleFn = (cycleKey) => {
+export const getlinkCycleFn = cycleKey => {
     return (fn, key) => {
         const d = {};
         !key ? (key = cycleKey) : "";
